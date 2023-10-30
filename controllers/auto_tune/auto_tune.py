@@ -37,6 +37,8 @@ class AutoTuner:
             control_action = controller.compute_action(angle, reference=0)
             state, reward, done, truncated, _ = self.env.step([control_action])
             rewards += reward
+            if done:
+                break
         return rewards
 
     def tune(self):
