@@ -7,16 +7,18 @@ from utils.plot_utils import cumplot_rewards
 def main():
     # Initialize environment
     env = gym.make('Pendulum-v1', render_mode="rgb_array")
+
+    max_steps = 50
     
     # Initialize controller
     controller = PIDController(kp=1.0, ki=0.5, kd=0.1)
-    controller.tune(env)
+    controller.tune(env, max_steps=max_steps)
     
     # Simulation loop
     state, info = env.reset()
     done = False
     rewards = []
-    for _ in range(30):
+    for _ in range(max_steps):
         env.render()
         cos_theta, sin_theta, theta_dot = state
         angle = np.arctan2(sin_theta, cos_theta)

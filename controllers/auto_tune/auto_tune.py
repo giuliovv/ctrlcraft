@@ -1,13 +1,17 @@
+import logging
+
 import numpy as np
 import optuna
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 optuna.logging.set_verbosity(optuna.logging.CRITICAL)
 
 class AutoTuner:
-    def __init__(self, env, controller, n_trials=100):
+    def __init__(self, env, controller, n_trials=100, max_steps=30):
         self.env = env
         self.controller = controller
         self.n_trials = n_trials
+        self.max_steps = max_steps
 
     def _objective(self, trial):
         # Dynamically get parameter bounds from the controller
@@ -25,7 +29,7 @@ class AutoTuner:
     def _run_episode_with_controller(self, controller):
         state, info = self.env.reset()
         rewards = 0
-        for _ in range(30):
+        for _ in range(self.max_steps):
             # TODO generalize this or pass it to the user. Currenlty specific for Pendulum
             cos_theta, sin_theta, theta_dot = state
             angle = np.arctan2(sin_theta, cos_theta)
@@ -38,4 +42,5 @@ class AutoTuner:
     def tune(self):
         study = optuna.create_study(direction='minimize')
         study.optimize(self._objective, n_trials=self.n_trials)
+        logging.info(f"Tuning completed! Best parameters: {study.best_params}")
         return study.best_params

@@ -42,8 +42,8 @@ class AbstractController:
         """
         raise NotImplementedError
 
-    def tune(self, env, n_trials=100):
-        tuner = AutoTuner(env, self, n_trials)
+    def tune(self, env, n_trials=100, max_steps=30):
+        tuner = AutoTuner(env, self, n_trials, max_steps)
         best_params = tuner.tune()
         self.reset()
         self.set_parameters(**best_params)
