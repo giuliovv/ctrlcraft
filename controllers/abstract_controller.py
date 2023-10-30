@@ -25,7 +25,7 @@ class AbstractController:
         """
         raise NotImplementedError("This method should be overridden in the derived class.")
 
-    def compute_action(self, state, reference=None):
+    def compute_action(self, state, derivative=None, reference=None):
         """
         Compute the control action based on the current state and possibly a reference.
         :param state: Current state of the system.

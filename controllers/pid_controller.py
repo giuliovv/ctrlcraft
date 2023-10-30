@@ -27,19 +27,20 @@ class PIDController(AbstractController):
 
     def get_parameter_bounds(self):
         return {
-            'kp': (0, 5),
-            'ki': (0, 5),
-            'kd': (0, 5)
+            'kp': (0, 500),
+            'ki': (0, 500),
+            'kd': (0, 500)
         }
 
     def reset(self):
         self.previous_error = 0
         self.integral = 0
 
-    def compute_action(self, state, reference=0):
+    def compute_action(self, state, derivative=None, reference=0):
         error = reference - state
         self.integral += error
-        derivative = error - self.previous_error
+        if derivative is None:
+            derivative = error - self.previous_error
         action = self.kp * error + self.ki * self.integral + self.kd * derivative
         self.previous_error = error
         return action

@@ -43,6 +43,6 @@ class AutoTuner:
 
     def tune(self):
         study = optuna.create_study(direction='minimize')
-        study.optimize(self._objective, n_trials=self.n_trials)
+        study.optimize(self._objective, n_trials=self.n_trials, show_progress_bar=True)
         logging.info(f"Tuning completed! Best parameters: {study.best_params}")
         return study.best_params

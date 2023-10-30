@@ -1,10 +1,18 @@
 import logging
 
 import imageio
+from IPython.display import display, Image
 import matplotlib.pyplot as plt
 import numpy as np
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+
+def display_gif(path='./animations/animation.gif'):
+    """
+        Util to show a gif in a notebook.
+    """
+    with open(path, 'rb') as f:
+        display(Image(data=f.read(), format='png'))
 
 def plot_rewards(rewards_history):
     plt.plot(rewards_history)
@@ -53,5 +61,5 @@ def display_gif(path='./animations/animation.gif'):
     from matplotlib.animation import FuncAnimation
     ani = FuncAnimation(fig, update, frames=num_frames, interval=interval, blit=True, repeat=False)
 
-    # ani._stop = on_animation_end  # Override the _stop method to close the figure
+    ani._stop = on_animation_end  # Override the _stop method to close the figure
     plt.show()
