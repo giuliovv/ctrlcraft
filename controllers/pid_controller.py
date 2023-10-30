@@ -25,6 +25,13 @@ class PIDController(AbstractController):
             'kd': self.kd
         }
 
+    def get_parameter_bounds(self):
+        return {
+            'kp': (0, 5),
+            'ki': (0, 5),
+            'kd': (0, 5)
+        }
+
     def reset(self):
         self.previous_error = 0
         self.integral = 0

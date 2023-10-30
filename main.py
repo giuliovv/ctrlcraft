@@ -10,6 +10,7 @@ def main():
     
     # Initialize controller
     controller = PIDController(kp=1.0, ki=0.5, kd=0.1)
+    controller.tune(env)
     
     # Simulation loop
     state, info = env.reset()

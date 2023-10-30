@@ -1,3 +1,4 @@
 gymnasium[classic-control]
 matplotlib
 numpy
+optuna

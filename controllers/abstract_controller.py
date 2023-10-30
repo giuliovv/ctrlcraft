@@ -1,3 +1,5 @@
+from controllers.auto_tune import AutoTuner
+
 class AbstractController:
     def __init__(self):
         """
@@ -31,3 +33,18 @@ class AbstractController:
         :return: Computed control action.
         """
         raise NotImplementedError("This method should be overridden in the derived class.")
+
+    def get_parameter_bounds(self):
+        """
+        This method should return a dictionary where
+        - keys are parameter names
+        - values are tuples of (lower_bound, upper_bound)
+        """
+        raise NotImplementedError
+
+    def tune(self, env, n_trials=100):
+        tuner = AutoTuner(env, self, n_trials)
+        best_params = tuner.tune()
+        self.reset()
+        self.set_parameters(**best_params)
+        return best_params
