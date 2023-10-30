@@ -1,2 +1,2 @@
-openai-gym
+gymnasium
 numpy
